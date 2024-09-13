@@ -9,9 +9,9 @@ import java.util.List;
 
 public class ProcessaArquivos {
 
-    private final String PATH = "importacao\\arquivos\\";
+    private final String PATH = "arquivos\\";
 
-    private final String PROCESSADOS = "importacao\\processados\\";
+    private final String PROCESSADOS = "processados\\";
 
     private String prefix;
 

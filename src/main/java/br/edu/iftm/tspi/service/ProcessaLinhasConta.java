@@ -7,11 +7,11 @@ import br.edu.iftm.tspi.dao.ContaDao;
 import br.edu.iftm.tspi.domain.Cliente;
 import br.edu.iftm.tspi.domain.Conta;
 
-public class ProcessaLinhasConta implements ProcessaLinha {
+public class ProcessaLinhasConta extends ProcessaCabecalho implements ProcessaLinha {
 
     private ContaDao contaDao;
 
-    private Integer lote;
+    private String tipoArquivo = "CTA";
 
     public ProcessaLinhasConta() {
         contaDao = new ContaDao();
@@ -23,24 +23,14 @@ public class ProcessaLinhasConta implements ProcessaLinha {
             if (opcao.equals("2")) {
                 processaDetalhe(linha);
             } else if (opcao.equals("1")) {
-                processaCabecalho(linha);
+                processaCabecalho(linha, tipoArquivo, contaDao);
             } else {
                 throw new Exception("Desconheço essa opção de processar a linha: "+opcao);
             }
         }
-        contaDao.salvarLote(lote);
+        contaDao.salvarLote(getLote(), tipoArquivo);
     }
 
-    private void processaCabecalho(String linha) throws Exception {
-        Integer lote = Integer.parseInt(linha.substring( 1, 4));
-        Integer loteBanco = contaDao.getUltimoLote();
-        Integer loteEsperado = loteBanco + 1;
-        if (!lote.equals(loteEsperado)) {
-            throw new Exception("Lote recebido: "+lote+ 
-                                "diferente do lote esperado:"+loteEsperado);
-        }
-        this.lote = lote;
-    }
 
     private void processaDetalhe(String linha) throws Exception {
         Conta conta = getConta(linha);

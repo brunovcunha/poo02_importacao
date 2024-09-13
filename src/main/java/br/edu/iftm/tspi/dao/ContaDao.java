@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import br.edu.iftm.tspi.domain.Conta;
 
-public class ContaDao {
+public class ContaDao extends ControleRecebimentoDao {
 
     public void salvarConta(Conta conta) throws Exception {
         Connection connection = Conexao.getConnection();
@@ -68,28 +68,5 @@ public class ContaDao {
                                 +conta.getInclusaoAlteracao());
         }
     }
-
-    public Integer getUltimoLote() throws Exception {
-       Connection conexao = Conexao.getConnection();
-       String sql = "select MAX(numlot) as maxLote "+ 
-                    "from tbControleRecebimento "+
-                    "where tiparq = 'CTA'";
-       PreparedStatement ps = conexao.prepareStatement(sql);
-       ResultSet rs = ps.executeQuery();
-       if (rs.next()) {
-          return rs.getInt(1);
-       }
-       throw new Exception("Não encontrei o último lote de conta");
-    }
-
-    public void salvarLote(Integer lote) throws Exception {
-        Connection conexao = Conexao.getConnection();
-        String sql = "INSERT INTO tbControleRecebimento(tiparq,numlot,dathraprc) "+
-                     "values ('CTA',?,now())";
-        PreparedStatement ps = conexao.prepareStatement(sql);
-        ps.setInt(1, lote);
-        ps.execute();
-    }
-
 
 }

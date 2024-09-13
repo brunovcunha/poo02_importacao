@@ -4,9 +4,9 @@ import br.edu.iftm.tspi.dao.ControleRecebimentoDao;
 
 public class ProcessaCabecalho {
 
-    private ControleRecebimentoDao dao;
+    private Integer lote;
 
-    public void processaCabecalho(String linha, String tipoArquivo) throws Exception {
+    public void processaCabecalho(String linha, String tipoArquivo, ControleRecebimentoDao dao) throws Exception {
         Integer lote = Integer.parseInt(linha.substring(1, 4));
         Integer loteBanco = dao.getUltimoLote(tipoArquivo);
         Integer loteEsperado = loteBanco + 1;
@@ -15,6 +15,10 @@ public class ProcessaCabecalho {
                     "diferente do lote esperado:" + loteEsperado);
         }
         this.lote = lote;
+    }
+
+    public Integer getLote() {
+        return lote;
     }
 
 }

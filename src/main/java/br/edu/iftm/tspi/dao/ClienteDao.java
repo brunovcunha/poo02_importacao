@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 
 import br.edu.iftm.tspi.domain.Cliente;
 
-public class ClienteDao {
+public class ClienteDao extends ControleRecebimentoDao{
 
     public void salvarCliente(Cliente cliente) throws Exception {
         Connection connection = Conexao.getConnection();

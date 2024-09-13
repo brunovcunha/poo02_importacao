@@ -6,13 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import br.edu.iftm.tspi.dao.ClienteDao;
+
 import br.edu.iftm.tspi.domain.Cliente;
 
-public class ProcessaLinhasCliente implements ProcessaLinha{
+public class ProcessaLinhasCliente extends ProcessaCabecalho implements ProcessaLinha{
 
     private ClienteDao clienteDao;
 
-    private Integer lote;
+    private String tipoArquivo = "CLI";
 
     public ProcessaLinhasCliente() {
         clienteDao = new ClienteDao();
@@ -25,24 +26,14 @@ public class ProcessaLinhasCliente implements ProcessaLinha{
             if (opcao.equals("2")) {
                 processaDetalhe(linha);
             } else if (opcao.equals("1")) {
-                processaCabecalho(linha);
+                processaCabecalho(linha, tipoArquivo, clienteDao);
             } else {
                 throw new Exception("Desconheço essa opção de processar a linha: "+opcao);
             }
         }
-        clienteDao.salvarLote(lote);
+        clienteDao.salvarLote(getLote(), tipoArquivo);
     }
 
-    private void processaCabecalho(String linha) throws Exception {
-        Integer lote = Integer.parseInt(linha.substring( 1, 4));
-        Integer loteBanco = clienteDao.getUltimoLote();
-        Integer loteEsperado = loteBanco + 1;
-        if (!lote.equals(loteEsperado)) {
-            throw new Exception("Lote recebido: "+lote+ 
-                                "diferente do lote esperado:"+loteEsperado);
-        }
-        this.lote = lote;
-    }
 
     private void processaDetalhe(String linha) throws Exception {
         Cliente cliente = getCliente(linha);
