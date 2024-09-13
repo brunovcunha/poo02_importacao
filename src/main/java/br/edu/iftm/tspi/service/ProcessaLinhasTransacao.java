@@ -34,25 +34,34 @@ public class ProcessaLinhasTransacao extends ProcessaCabecalho implements Proces
 
     private void processaDetalhe(String linha) throws Exception {
         Transacao transacao = getTransacao(linha);
+        System.out.println("Transacao a ser salva: " + transacao);
         transacaoDao.salvarTransacao(transacao);
     }
+    
 
     private Transacao getTransacao(String linha) throws ParseException {
         Transacao transacao = new Transacao();
         
-        transacao.setNumeroConta(linha.substring(2, 9).trim()); // Número da conta
-        transacao.setNumeroPlastico(linha.substring(9, 16).trim()); // Número do plástico
-        transacao.setValorTransacao(Double.parseDouble(linha.substring(16, 28).trim())); // Valor da transação 
+        transacao.setNumeroConta(linha.substring(2, 9).trim()); 
+        transacao.setNumeroPlastico(linha.substring(9, 16).trim()); 
+        
+        String valorTransacaoStr = linha.substring(16, 28).trim();
+        double valorTransacao = Double.parseDouble(valorTransacaoStr) / 100.0;
+        transacao.setValorTransacao(valorTransacao); 
+        
         SimpleDateFormat sdfData = new SimpleDateFormat("yyyyMMdd");
-        String dataTransacaoStr = linha.substring(28, 36).trim(); // Data da transação
+        String dataTransacaoStr = linha.substring(28, 36).trim();
         Date dataTransacao = sdfData.parse(dataTransacaoStr);
         transacao.setDataTransacao(dataTransacao);
         
-        transacao.setHoraTransacao(linha.substring(36, 42).trim()); // Hora da transação
-     
-        transacao.setCodigoEstabelecimento(linha.substring(42, 48).trim()); // Código do estabelecimento
+        String horaTransacaoStr = linha.substring(36, 42).trim();
+        String horaTransacao = horaTransacaoStr.substring(0, 2) + ":" + horaTransacaoStr.substring(2, 4) + ":" + horaTransacaoStr.substring(4, 6);
+        transacao.setHoraTransacao(horaTransacao);
+        
+        transacao.setCodigoEstabelecimento(linha.substring(42, 48).trim()); 
         
         return transacao;
     }
+    
 
 }

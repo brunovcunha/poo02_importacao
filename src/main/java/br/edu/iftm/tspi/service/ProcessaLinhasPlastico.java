@@ -36,10 +36,10 @@ public class ProcessaLinhasPlastico extends ProcessaCabecalho implements Process
 
     private Plastico getPlastico(String linha) {
         Plastico plastico = new Plastico();
-        plastico.setNumeroConta(linha.substring(0, 4).trim()); 
-        plastico.setNumeroPlastico(linha.substring(4, 12).trim()); 
-        plastico.setNome(linha.substring(12, 32).trim()); 
-        plastico.setCpf(linha.substring(32, 43).trim()); 
+        plastico.setNumeroConta(linha.substring(3, 10).trim()); 
+        plastico.setNumeroPlastico(linha.substring(8, 38).trim()); 
+        plastico.setNome(linha.substring(38, 49).trim()); 
+        plastico.setCpf(linha.substring(49, 56).trim()); 
     
         return plastico;
     }

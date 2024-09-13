@@ -28,17 +28,19 @@ public class TransacaoDao extends ControleRecebimentoDao {
         ps.setString(5, transacao.getCodigoEstabelecimento());
         ps.execute();
     }
+    
 
     private String formatDataHora(Date data, String hora) throws ParseException {
-    SimpleDateFormat sdfData = new SimpleDateFormat("yyyy-MM-dd");
-    SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm:ss");
-
-    String dataStr = sdfData.format(data);
+        SimpleDateFormat sdfData = new SimpleDateFormat("yyyy-MM-dd");
     
-    String horaStr = hora != null && hora.length() == 6 ? hora.substring(0, 2) + ":" + hora.substring(2, 4) + ":" + hora.substring(4, 6) : "00:00:00";
+        String dataStr = sdfData.format(data);
+        
+        // Verifica se a hora é válida e formata corretamente
+        String horaStr = hora != null && hora.length() == 6 ? hora.substring(0, 2) + ":" + hora.substring(2, 4) + ":" + hora.substring(4, 6) : "00:00:00";
+        
+        return dataStr + " " + horaStr;
+    }
     
-    return dataStr + " " + horaStr;
-}
 
     public void atualizarTransacao(Transacao transacao) throws Exception {
         Connection connection = Conexao.getConnection();
