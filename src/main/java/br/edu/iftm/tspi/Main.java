@@ -13,7 +13,16 @@ import br.edu.iftm.tspi.service.ProcessaLinhasTransacao;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-      
+        ProcessaArquivos arquivos = new ProcessaArquivos(Cliente.CLIENTE_PREFIX, new ProcessaLinhasCliente());
+
+        arquivos.processa();
+
+        ProcessaArquivos arquivos2 = new ProcessaArquivos(Conta.CONTA_PREFIX, new ProcessaLinhasConta());
+        
+        arquivos2.processa();
+
+        ProcessaArquivos arquivos3 = new ProcessaArquivos(Plastico.PLASTICO_PREFIX, new ProcessaLinhasPlastico());
+        arquivos3.processa();
 
         ProcessaArquivos arquivos4 = new ProcessaArquivos(Transacao.TRANSACAO_PREFIX, new ProcessaLinhasTransacao());
         arquivos4.processa();
